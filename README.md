@@ -63,7 +63,7 @@ app/
 - **Java Version**: 21 (latest LTS for modern Android development)
 - **Android Gradle Plugin**: 8.11.1
 - **Gradle Version**: 8.13
-- **Kotlin Version**: 1.9.22
+- **Kotlin Version**: 2.1.0
 - **Target SDK**: 34
 - **Minimum SDK**: 26 (Android 8.0)
 
