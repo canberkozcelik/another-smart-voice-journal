@@ -106,8 +106,7 @@ Desktop.ini
 *.swp
 *.swo
 
-# Gradle wrapper jar file
-gradle/wrapper/gradle-wrapper.jar
+# Gradle wrapper jar file - REMOVED: This file is required for the project to build
 
 # Local configuration
 local.properties
