@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Another Smart Voice Journal</string>
+    <string name="record_button">Record</string>
+    <string name="stop_button">Stop</string>
+    <string name="pause_button">Pause</string>
+    <string name="resume_button">Resume</string>
+    <string name="delete_button">Delete</string>
+    <string name="save_button">Save</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="summarize_button">Summarize</string>
+    <string name="permission_required">Microphone permission is required to record voice</string>
+    <string name="recording_in_progress">Recording in progress...</string>
+    <string name="processing_audio">Processing audio...</string>
+    <string name="generating_summary">Generating summary...</string>
+    <string name="no_entries_yet">No journal entries yet. Start recording to create your first entry!</string>
+    <string name="entry_saved">Entry saved successfully</string>
+    <string name="entry_deleted">Entry deleted</string>
+    <string name="error_recording">Error occurred while recording</string>
+    <string name="error_transcription">Error occurred during transcription</string>
+    <string name="error_summarization">Error occurred during summarization</string>
+    <string name="ai_model_downloading">Downloading AI model...</string>
+    <string name="ai_model_unavailable">AI summarization is not available on this device</string>
+</resources> 

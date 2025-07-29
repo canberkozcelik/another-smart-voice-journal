@@ -1,0 +1,28 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Another Smart Voice Journal"
+
+include(":app")
+include(":core:ui")
+include(":core:common")
+include(":core:data")
+include(":core:domain")
+include(":feature:recording")
+include(":feature:transcription")
+include(":feature:summarization")
+include(":feature:journal")
+include(":feature:settings") 
