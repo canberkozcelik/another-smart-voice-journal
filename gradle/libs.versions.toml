@@ -17,6 +17,7 @@ activity-compose = "1.8.2"
 # Compose
 compose-bom = "2024.02.00"
 compose-compiler = "2.1.0"
+composeLintChecks = "1.4.2"
 
 # Navigation
 navigation-compose = "2.7.5"
@@ -51,6 +52,7 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintChecks" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

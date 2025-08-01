@@ -82,6 +82,8 @@ dependencies {
     implementation(project(":feature:summarization"))
     implementation(project(":feature:journal"))
     implementation(project(":feature:settings"))
+
+    lintChecks(libs.compose.lint.checks)
     
     // Testing dependencies
     testImplementation(libs.bundles.testing)

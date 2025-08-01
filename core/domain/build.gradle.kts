@@ -43,6 +43,8 @@ dependencies {
     
     // Testing dependencies
     testImplementation(libs.bundles.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.bundles.testing)
     testImplementation(kotlin("test"))
 } 

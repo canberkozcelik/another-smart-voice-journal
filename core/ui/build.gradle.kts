@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+
+    lintChecks(libs.compose.lint.checks)
     
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
