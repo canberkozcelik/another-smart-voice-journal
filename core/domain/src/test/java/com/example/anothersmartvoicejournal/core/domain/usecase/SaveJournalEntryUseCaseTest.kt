@@ -67,4 +67,4 @@ class SaveJournalEntryUseCaseTest {
         // Then
         assertEquals(expectedResult, result)
     }
-} 
+}

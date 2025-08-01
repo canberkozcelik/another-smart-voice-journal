@@ -57,4 +57,4 @@ class GetJournalEntriesUseCaseTest {
         // Then
         assertEquals(expectedEntries, result.first())
     }
-} 
+}

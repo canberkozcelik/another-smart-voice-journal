@@ -27,4 +27,4 @@ data class Summary(
     val inputType: String, // "ARTICLE" or "CONVERSATION"
     val createdAt: Long,
     val confidence: Float?
-) 
+)

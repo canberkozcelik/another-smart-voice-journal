@@ -45,20 +45,20 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    
+
     // Audio recording
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.ui)
-    
+
     // Testing dependencies
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)
     debugImplementation(libs.bundles.compose.debug)
-} 
+}

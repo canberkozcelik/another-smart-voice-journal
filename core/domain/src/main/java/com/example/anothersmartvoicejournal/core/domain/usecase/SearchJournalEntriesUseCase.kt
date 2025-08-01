@@ -2,8 +2,8 @@ package com.example.anothersmartvoicejournal.core.domain.usecase
 
 import com.example.anothersmartvoicejournal.core.domain.model.JournalEntry
 import com.example.anothersmartvoicejournal.core.domain.repository.JournalRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Use case to search journal entries by query.
@@ -20,4 +20,4 @@ class SearchJournalEntriesUseCase @Inject constructor(
     operator fun invoke(query: String): Flow<List<JournalEntry>> {
         return journalRepository.searchEntries(query)
     }
-} 
+}

@@ -68,4 +68,4 @@ class GetSummariesForEntryUseCaseTest {
         // Then
         assertEquals(expectedSummaries, result.first())
     }
-} 
+}

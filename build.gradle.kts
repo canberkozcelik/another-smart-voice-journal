@@ -6,8 +6,22 @@ plugins {
     alias(libs.plugins.kotlin.plugin.compose) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.ktlint) apply false
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
-} 
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        android.set(true)
+        verbose.set(true)
+        filter {
+            include("**/*.kt")
+            include("**/*.kts")
+            exclude("**/build/**")
+        }
+    }
+}

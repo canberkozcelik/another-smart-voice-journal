@@ -36,15 +36,15 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.coroutines)
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    
+
     // Testing dependencies
     testImplementation(libs.bundles.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.bundles.testing)
     testImplementation(kotlin("test"))
-} 
+}

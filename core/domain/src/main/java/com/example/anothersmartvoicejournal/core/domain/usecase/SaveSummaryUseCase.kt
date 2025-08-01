@@ -19,4 +19,4 @@ class SaveSummaryUseCase @Inject constructor(
     suspend operator fun invoke(summary: Summary): Result<Unit> {
         return summaryRepository.saveSummary(summary)
     }
-} 
+}

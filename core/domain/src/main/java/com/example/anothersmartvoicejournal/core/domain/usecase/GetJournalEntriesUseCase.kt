@@ -2,8 +2,8 @@ package com.example.anothersmartvoicejournal.core.domain.usecase
 
 import com.example.anothersmartvoicejournal.core.domain.model.JournalEntry
 import com.example.anothersmartvoicejournal.core.domain.repository.JournalRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Use case to get all journal entries.
@@ -19,4 +19,4 @@ class GetJournalEntriesUseCase @Inject constructor(
     operator fun invoke(): Flow<List<JournalEntry>> {
         return journalRepository.getAllEntries()
     }
-} 
+}

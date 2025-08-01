@@ -46,12 +46,12 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    
+
     // Testing dependencies
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
@@ -60,4 +60,4 @@ dependencies {
     androidTestImplementation(libs.bundles.compose.test)
     debugImplementation(libs.bundles.compose.debug)
     debugImplementation(libs.bundles.compose.debug)
-} 
+}

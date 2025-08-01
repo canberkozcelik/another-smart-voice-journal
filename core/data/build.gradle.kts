@@ -36,18 +36,18 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.coroutines)
-    
+
     // Core domain module dependency
     implementation(project(":core:domain"))
-    
+
     // Room database
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    
+
     // Testing dependencies
     testImplementation(kotlin("test"))
     testImplementation(libs.bundles.testing)
@@ -63,4 +63,4 @@ dependencies {
 // Test JVM arguments to suppress ByteBuddy warnings
 tasks.withType<Test> {
     jvmArgs("-XX:+EnableDynamicAgentLoading")
-} 
+}

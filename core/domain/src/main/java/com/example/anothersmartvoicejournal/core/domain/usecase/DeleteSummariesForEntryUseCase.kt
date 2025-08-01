@@ -18,4 +18,4 @@ class DeleteSummariesForEntryUseCase @Inject constructor(
     suspend operator fun invoke(entryId: String): Result<Unit> {
         return summaryRepository.deleteSummariesForEntry(entryId)
     }
-} 
+}

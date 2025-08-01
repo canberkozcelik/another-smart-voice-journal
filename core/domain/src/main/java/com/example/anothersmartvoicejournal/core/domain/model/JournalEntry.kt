@@ -15,15 +15,15 @@ data class JournalEntry(
     val formattedDate: String
         get() = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())
             .format(java.util.Date(createdAt))
-    
+
     val formattedTime: String
         get() = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
             .format(java.util.Date(createdAt))
-    
+
     val durationFormatted: String
-        get() = duration?.let { 
+        get() = duration?.let {
             val minutes = it / 60000
             val seconds = (it % 60000) / 1000
             String.format("%02d:%02d", minutes, seconds)
         } ?: "00:00"
-} 
+}

@@ -57,25 +57,25 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.activity.compose)
-    
+
     // Compose dependencies
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
-    
+
     // Navigation
     implementation(libs.navigation.compose)
-    
+
     // Hilt dependencies
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    
+
     // Core modules
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
-    
+
     // Feature modules
     implementation(project(":feature:recording"))
     implementation(project(":feature:transcription"))
@@ -84,11 +84,11 @@ dependencies {
     implementation(project(":feature:settings"))
 
     lintChecks(libs.compose.lint.checks)
-    
+
     // Testing dependencies
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)
     debugImplementation(libs.bundles.compose.debug)
-} 
+}

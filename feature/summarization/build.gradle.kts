@@ -45,19 +45,19 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
-    
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    
+
     // ML Kit GenAI Summarization
     implementation(libs.mlkit.genai.summarization)
-    
+
     // Testing dependencies
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)
     debugImplementation(libs.bundles.compose.debug)
-} 
+}

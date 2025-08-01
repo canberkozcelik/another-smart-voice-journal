@@ -15,4 +15,4 @@ data class JournalEntry(
     val language: String,
     val transcriptionConfidence: Float?,
     val isDraft: Boolean = false
-) 
+)

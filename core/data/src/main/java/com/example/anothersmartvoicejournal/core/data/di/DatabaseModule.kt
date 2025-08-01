@@ -18,32 +18,32 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): VoiceJournalDatabase {
         return VoiceJournalDatabase.getDatabase(context)
     }
-    
+
     @Provides
     fun provideJournalDao(database: VoiceJournalDatabase): JournalDao {
         return database.journalDao()
     }
-    
+
     @Provides
     fun provideSummaryDao(database: VoiceJournalDatabase): SummaryDao {
         return database.summaryDao()
     }
-    
+
     @Provides
     @Singleton
     fun provideJournalRepository(impl: JournalRepositoryImpl): JournalRepository {
         return impl
     }
-    
+
     @Provides
     @Singleton
     fun provideSummaryRepository(impl: SummaryRepositoryImpl): SummaryRepository {
         return impl
     }
-} 
+}

@@ -18,4 +18,4 @@ class DeleteJournalEntryUseCase @Inject constructor(
     suspend operator fun invoke(entryId: String): Result<Unit> {
         return journalRepository.deleteEntry(entryId)
     }
-} 
+}

@@ -8,40 +8,41 @@ import com.example.anothersmartvoicejournal.core.data.dao.JournalDao
 import com.example.anothersmartvoicejournal.core.data.dao.SummaryDao
 import com.example.anothersmartvoicejournal.core.data.entity.JournalEntry
 import com.example.anothersmartvoicejournal.core.data.entity.Summary
+import java.io.IOException
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 @RunWith(AndroidJUnit4::class)
 class VoiceJournalDatabaseTest {
-    
+
     private lateinit var database: VoiceJournalDatabase
     private lateinit var journalDao: JournalDao
     private lateinit var summaryDao: SummaryDao
-    
+
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
-            context, VoiceJournalDatabase::class.java
+            context,
+            VoiceJournalDatabase::class.java
         ).build()
         journalDao = database.journalDao()
         summaryDao = database.summaryDao()
     }
-    
+
     @After
     @Throws(IOException::class)
     fun closeDb() {
         database.close()
     }
-    
+
     @Test
     fun insertAndReadJournalEntry() = runTest {
         // Given
@@ -57,11 +58,11 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.95f,
             isDraft = false
         )
-        
+
         // When
         journalDao.insertEntry(entry)
         val result = journalDao.getEntryById("1")
-        
+
         // Then
         assertNotNull(result)
         assertEquals("1", result.id)
@@ -75,7 +76,7 @@ class VoiceJournalDatabaseTest {
         assertEquals(0.95f, result.transcriptionConfidence)
         assertEquals(false, result.isDraft)
     }
-    
+
     @Test
     fun insertAndReadSummary() = runTest {
         // Given
@@ -100,12 +101,12 @@ class VoiceJournalDatabaseTest {
             createdAt = 1234567890L,
             confidence = 0.95f
         )
-        
+
         // When
         journalDao.insertEntry(journalEntry)
         summaryDao.insertSummary(summary)
         val result = summaryDao.getSummaryById("1")
-        
+
         // Then
         assertNotNull(result)
         assertEquals("1", result.id)
@@ -115,7 +116,7 @@ class VoiceJournalDatabaseTest {
         assertEquals("ARTICLE", result.inputType)
         assertEquals(0.95f, result.confidence)
     }
-    
+
     @Test
     fun getAllEntries() = runTest {
         // Given
@@ -143,13 +144,13 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.88f,
             isDraft = true
         )
-        
+
         journalDao.insertEntry(entry1)
         journalDao.insertEntry(entry2)
-        
+
         // When
         val result = journalDao.getAllEntries().first()
-        
+
         // Then
         assertEquals(2, result.size)
         // Order is by createdAt DESC, so newer entry (entry2) comes first
@@ -158,7 +159,7 @@ class VoiceJournalDatabaseTest {
         assertEquals("1", result[1].id)
         assertEquals("First Entry", result[1].title)
     }
-    
+
     @Test
     fun getPublishedEntries() = runTest {
         // Given
@@ -186,20 +187,20 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.88f,
             isDraft = true
         )
-        
+
         journalDao.insertEntry(publishedEntry)
         journalDao.insertEntry(draftEntry)
-        
+
         // When
         val result = journalDao.getPublishedEntries().first()
-        
+
         // Then
         assertEquals(1, result.size)
         assertEquals("1", result[0].id)
         assertEquals("Published Entry", result[0].title)
         assertEquals(false, result[0].isDraft)
     }
-    
+
     @Test
     fun searchEntries() = runTest {
         // Given
@@ -227,19 +228,19 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.88f,
             isDraft = false
         )
-        
+
         journalDao.insertEntry(entry1)
         journalDao.insertEntry(entry2)
-        
+
         // When
         val result = journalDao.searchEntries("search").first()
-        
+
         // Then
         assertEquals(1, result.size)
         assertEquals("1", result[0].id)
         assertEquals("Searchable Entry", result[0].title)
     }
-    
+
     @Test
     fun getSummariesForEntry() = runTest {
         // Given
@@ -273,14 +274,14 @@ class VoiceJournalDatabaseTest {
             createdAt = 1234567891L,
             confidence = 0.88f
         )
-        
+
         journalDao.insertEntry(journalEntry)
         summaryDao.insertSummary(summary1)
         summaryDao.insertSummary(summary2)
-        
+
         // When
         val result = summaryDao.getSummariesForEntry("entry1").first()
-        
+
         // Then
         assertEquals(2, result.size)
         // Order is by createdAt DESC, so newer summary (summary2) comes first
@@ -289,7 +290,7 @@ class VoiceJournalDatabaseTest {
         assertEquals("1", result[1].id)
         assertEquals("entry1", result[1].entryId)
     }
-    
+
     @Test
     fun deleteEntry() = runTest {
         // Given
@@ -305,19 +306,19 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.95f,
             isDraft = false
         )
-        
+
         journalDao.insertEntry(entry)
-        
+
         // Verify entry exists
         assertNotNull(journalDao.getEntryById("1"))
-        
+
         // When
         journalDao.deleteEntryById("1")
-        
+
         // Then
         assertNull(journalDao.getEntryById("1"))
     }
-    
+
     @Test
     fun deleteSummary() = runTest {
         // Given
@@ -342,20 +343,20 @@ class VoiceJournalDatabaseTest {
             createdAt = 1234567890L,
             confidence = 0.95f
         )
-        
+
         journalDao.insertEntry(journalEntry)
         summaryDao.insertSummary(summary)
-        
+
         // Verify summary exists
         assertNotNull(summaryDao.getSummaryById("1"))
-        
+
         // When
         summaryDao.deleteSummary(summary)
-        
+
         // Then
         assertNull(summaryDao.getSummaryById("1"))
     }
-    
+
     @Test
     fun getEntryCount() = runTest {
         // Given
@@ -383,14 +384,14 @@ class VoiceJournalDatabaseTest {
             transcriptionConfidence = 0.88f,
             isDraft = false
         )
-        
+
         journalDao.insertEntry(entry1)
         journalDao.insertEntry(entry2)
-        
+
         // When
         val result = journalDao.getEntryCount().first()
-        
+
         // Then
         assertEquals(2, result)
     }
-} 
+}

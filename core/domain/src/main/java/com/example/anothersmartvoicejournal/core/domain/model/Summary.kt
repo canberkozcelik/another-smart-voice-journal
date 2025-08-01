@@ -12,9 +12,9 @@ data class Summary(
     val formattedDate: String
         get() = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())
             .format(java.util.Date(createdAt))
-    
+
     val bulletPointList: List<String>
         get() = content.split("\n")
             .filter { it.trim().isNotEmpty() }
             .map { it.trim() }
-} 
+}

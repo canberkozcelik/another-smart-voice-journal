@@ -63,4 +63,4 @@ class SaveSummaryUseCaseTest {
         // Then
         assertEquals(expectedResult, result)
     }
-} 
+}

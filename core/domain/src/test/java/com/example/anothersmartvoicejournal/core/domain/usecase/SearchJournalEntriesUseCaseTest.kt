@@ -86,4 +86,4 @@ class SearchJournalEntriesUseCaseTest {
         // Then
         assertEquals(expectedEntries, result.first())
     }
-} 
+}

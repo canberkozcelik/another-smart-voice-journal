@@ -11,4 +11,4 @@ interface JournalRepository {
     suspend fun deleteEntry(id: String): Result<Unit>
     fun searchEntries(query: String): Flow<List<JournalEntry>>
     fun getEntryCount(): Flow<Int>
-} 
+}

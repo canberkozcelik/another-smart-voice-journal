@@ -44,10 +44,10 @@ dependencies {
     implementation(libs.bundles.compose)
 
     lintChecks(libs.compose.lint.checks)
-    
+
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)
     debugImplementation(libs.bundles.compose.debug)
-} 
+}

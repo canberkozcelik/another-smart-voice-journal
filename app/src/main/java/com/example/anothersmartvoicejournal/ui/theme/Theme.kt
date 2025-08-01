@@ -56,4 +56,4 @@ fun VoiceJournalTheme(
         typography = Typography,
         content = content
     )
-} 
+}

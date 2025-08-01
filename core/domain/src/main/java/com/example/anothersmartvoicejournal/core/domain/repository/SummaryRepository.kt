@@ -10,4 +10,4 @@ interface SummaryRepository {
     suspend fun deleteSummary(id: String): Result<Unit>
     suspend fun deleteSummariesForEntry(entryId: String): Result<Unit>
     fun getRecentSummaries(limit: Int = 10): Flow<List<Summary>>
-} 
+}

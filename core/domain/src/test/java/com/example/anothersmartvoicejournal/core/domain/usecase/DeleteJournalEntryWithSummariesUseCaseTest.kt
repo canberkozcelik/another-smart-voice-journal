@@ -5,11 +5,10 @@ import com.example.anothersmartvoicejournal.core.domain.repository.SummaryReposi
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
+import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class DeleteJournalEntryWithSummariesUseCaseTest {
 
@@ -57,4 +56,4 @@ class DeleteJournalEntryWithSummariesUseCaseTest {
         coVerify(exactly = 1) { mockJournalRepository.deleteEntry(entryId) }
         assertEquals(successResult, result)
     }
-} 
+}

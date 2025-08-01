@@ -2,8 +2,8 @@ package com.example.anothersmartvoicejournal.core.domain.usecase
 
 import com.example.anothersmartvoicejournal.core.domain.model.Summary
 import com.example.anothersmartvoicejournal.core.domain.repository.SummaryRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Use case to get all summaries for a specific journal entry.
@@ -20,4 +20,4 @@ class GetSummariesForEntryUseCase @Inject constructor(
     operator fun invoke(entryId: String): Flow<List<Summary>> {
         return summaryRepository.getSummariesForEntry(entryId)
     }
-} 
+}

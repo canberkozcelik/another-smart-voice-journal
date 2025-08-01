@@ -10,18 +10,16 @@ import com.example.anothersmartvoicejournal.core.domain.model.JournalEntry
 import com.example.anothersmartvoicejournal.core.domain.model.Summary
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.io.IOException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
-import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -56,7 +54,8 @@ class JournalUseCasesIntegrationTest {
         getJournalEntriesUseCase = GetJournalEntriesUseCase(journalRepository)
         saveJournalEntryUseCase = SaveJournalEntryUseCase(journalRepository)
         deleteJournalEntryWithSummariesUseCase = DeleteJournalEntryWithSummariesUseCase(
-            journalRepository, summaryRepository
+            journalRepository,
+            summaryRepository
         )
         searchJournalEntriesUseCase = SearchJournalEntriesUseCase(journalRepository)
         getSummariesForEntryUseCase = GetSummariesForEntryUseCase(summaryRepository)
@@ -230,4 +229,4 @@ class JournalUseCasesIntegrationTest {
         assertEquals(0, getJournalEntriesUseCase().first().size)
         assertEquals(0, getSummariesForEntryUseCase("1").first().size)
     }
-} 
+}

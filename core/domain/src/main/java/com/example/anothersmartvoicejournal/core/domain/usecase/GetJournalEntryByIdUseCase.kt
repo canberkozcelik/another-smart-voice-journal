@@ -2,7 +2,6 @@ package com.example.anothersmartvoicejournal.core.domain.usecase
 
 import com.example.anothersmartvoicejournal.core.domain.model.JournalEntry
 import com.example.anothersmartvoicejournal.core.domain.repository.JournalRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -20,4 +19,4 @@ class GetJournalEntryByIdUseCase @Inject constructor(
     suspend operator fun invoke(entryId: String): JournalEntry? {
         return journalRepository.getEntryById(entryId)
     }
-} 
+}

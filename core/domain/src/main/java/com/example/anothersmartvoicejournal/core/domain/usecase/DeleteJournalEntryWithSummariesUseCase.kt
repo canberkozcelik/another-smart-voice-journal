@@ -26,4 +26,4 @@ class DeleteJournalEntryWithSummariesUseCase @Inject constructor(
         // Then delete the journal entry
         return journalRepository.deleteEntry(entryId)
     }
-} 
+}

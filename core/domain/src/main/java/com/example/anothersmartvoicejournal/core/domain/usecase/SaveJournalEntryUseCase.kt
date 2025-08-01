@@ -19,4 +19,4 @@ class SaveJournalEntryUseCase @Inject constructor(
     suspend operator fun invoke(journalEntry: JournalEntry): Result<Unit> {
         return journalRepository.saveEntry(journalEntry)
     }
-} 
+}
