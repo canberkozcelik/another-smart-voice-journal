@@ -31,8 +31,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Check code formatting
-      run: ./gradlew spotlessCheck
+    - name: Check code formatting with ktlint
+      run: ./gradlew ktlintCheck
 
     - name: Run lint checks
       run: ./gradlew lint
