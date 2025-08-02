@@ -132,3 +132,7 @@ testing = [
     "androidx-test-ext",
     "espresso-core"
 ]
+core = [
+    "androidx-core-ktx",
+    "androidx-lifecycle-runtime"
+]

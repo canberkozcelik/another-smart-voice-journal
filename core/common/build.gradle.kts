@@ -32,11 +32,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation(project(":core:ui"))
+    implementation(project(":core:domain"))
+    implementation(libs.bundles.core)
+    implementation(libs.bundles.coroutines)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.junit)
+    testImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.espresso.core)
 }

@@ -46,6 +46,7 @@ dependencies {
     lintChecks(libs.compose.lint.checks)
 
     testImplementation(libs.bundles.testing)
+    testImplementation(kotlin("test"))
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)
