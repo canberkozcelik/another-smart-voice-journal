@@ -1,5 +1,7 @@
 package com.example.anothersmartvoicejournal.core.domain.model
 
+import java.util.Locale
+
 data class JournalEntry(
     val id: String,
     val title: String,
@@ -13,17 +15,17 @@ data class JournalEntry(
     val isDraft: Boolean = false
 ) {
     val formattedDate: String
-        get() = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())
+        get() = java.text.SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
             .format(java.util.Date(createdAt))
 
     val formattedTime: String
-        get() = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+        get() = java.text.SimpleDateFormat("HH:mm", Locale.getDefault())
             .format(java.util.Date(createdAt))
 
     val durationFormatted: String
         get() = duration?.let {
             val minutes = it / 60000
             val seconds = (it % 60000) / 1000
-            String.format("%02d:%02d", minutes, seconds)
+            String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
         } ?: "00:00"
 }
