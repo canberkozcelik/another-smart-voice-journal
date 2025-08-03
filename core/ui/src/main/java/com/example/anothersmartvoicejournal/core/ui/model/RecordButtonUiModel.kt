@@ -10,4 +10,4 @@ enum class RecordButtonState {
     IDLE,
     RECORDING,
     PROCESSING
-} 
+}

@@ -4,4 +4,4 @@ data class TopAppBarUiModel(
     val title: String,
     val showBackButton: Boolean = false,
     val onNavigateBack: (() -> Unit)? = null
-) 
+)

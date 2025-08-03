@@ -15,4 +15,4 @@ enum class LoadingState {
     LOADING,
     SUCCESS,
     ERROR
-} 
+}

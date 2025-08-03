@@ -1,10 +1,10 @@
 package com.example.anothersmartvoicejournal.core.common.mapper
 
 import com.example.anothersmartvoicejournal.core.domain.model.JournalEntry
-import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.junit.Test
 
 class JournalEntryUiMapperTest {
 

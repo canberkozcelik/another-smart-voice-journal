@@ -20,7 +20,7 @@ import com.example.anothersmartvoicejournal.core.ui.model.TopAppBarUiModel
 fun TopAppBar(
     uiModel: TopAppBarUiModel,
     modifier: Modifier = Modifier,
-    actions: @Composable RowScope.() -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         title = { Text(text = uiModel.title) },
