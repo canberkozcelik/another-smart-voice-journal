@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicOff
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
@@ -54,8 +55,9 @@ fun RecordButton(
             },
         containerColor = when (uiModel.state) {
             RecordButtonState.IDLE -> MaterialTheme.colorScheme.primary
-            RecordButtonState.RECORDING -> MaterialTheme.colorScheme.error
+            RecordButtonState.RECORDING -> MaterialTheme.colorScheme.inversePrimary
             RecordButtonState.PROCESSING -> MaterialTheme.colorScheme.surfaceVariant
+            RecordButtonState.DISABLED -> MaterialTheme.colorScheme.error
         }
     ) {
         when (uiModel.state) {
@@ -78,6 +80,13 @@ fun RecordButton(
                     modifier = Modifier.size(24.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     strokeWidth = 2.dp
+                )
+            }
+            RecordButtonState.DISABLED -> {
+                Icon(
+                    imageVector = Icons.Default.MicOff,
+                    contentDescription = "Recording Disabled",
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
@@ -132,7 +141,7 @@ private fun RecordButtonPreview_Disabled() {
     MaterialTheme {
         RecordButton(
             uiModel = RecordButtonUiModel(
-                state = RecordButtonState.IDLE,
+                state = RecordButtonState.DISABLED,
                 enabled = false,
                 onClick = {}
             )

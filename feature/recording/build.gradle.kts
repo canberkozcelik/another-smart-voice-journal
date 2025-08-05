@@ -45,6 +45,9 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
+    implementation(libs.androidx.core.ktx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -56,7 +59,11 @@ dependencies {
     implementation(libs.media3.ui)
 
     // Testing dependencies
+    testImplementation(kotlin("test"))
     testImplementation(libs.bundles.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.compose.test)

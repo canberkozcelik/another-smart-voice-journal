@@ -9,5 +9,6 @@ data class RecordButtonUiModel(
 enum class RecordButtonState {
     IDLE,
     RECORDING,
-    PROCESSING
+    PROCESSING,
+    DISABLED
 }
