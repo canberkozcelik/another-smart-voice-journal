@@ -47,8 +47,6 @@ class GetRecordingStateUseCaseTest {
         assertNull(result.error)
     }
 
-
-
     @Test
     fun `invoke should return error state from repository`() = runTest {
         // Given

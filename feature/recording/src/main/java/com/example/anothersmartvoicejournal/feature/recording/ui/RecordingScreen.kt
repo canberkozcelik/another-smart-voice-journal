@@ -25,7 +25,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -48,6 +47,7 @@ import com.example.anothersmartvoicejournal.core.ui.model.RecordButtonUiModel
 import com.example.anothersmartvoicejournal.core.ui.model.ToastType
 import com.example.anothersmartvoicejournal.core.ui.model.ToastUiModel
 import com.example.anothersmartvoicejournal.core.ui.model.TopAppBarUiModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun RecordingScreen(
@@ -101,7 +101,13 @@ fun RecordingScreen(
     // Remember stable callbacks for other actions
     val onStopRecording = remember(viewModel) { { viewModel.stopRecording() } }
     val onClearError = remember(viewModel) { { viewModel.clearError() } }
-    val onUpdatePermissionState = remember(viewModel) { { permissionState: PermissionState -> viewModel.updatePermissionState(permissionState) } }
+    val onUpdatePermissionState = remember(viewModel) {
+        { permissionState: PermissionState ->
+            viewModel.updatePermissionState(
+                permissionState
+            )
+        }
+    }
 
     // Check initial permission state
     LaunchedEffect(Unit) {
@@ -316,7 +322,7 @@ private fun MainRecordButton(
             uiState.isLoading -> RecordButtonState.PROCESSING
             uiState.isRecording -> RecordButtonState.RECORDING
             uiState.permissionState == PermissionState.PermanentlyDenied -> RecordButtonState.DISABLED
-            uiState.error != null -> RecordButtonState.DISABLED  // Show disabled when there's an error
+            uiState.error != null -> RecordButtonState.DISABLED // Show disabled when there's an error
             else -> RecordButtonState.IDLE
         }
     }
@@ -325,16 +331,14 @@ private fun MainRecordButton(
         // Allow clicks if we can start/stop recording OR if we need to request permission
         // Only disable when permanently denied or when there's an error
         !uiState.isLoading &&
-        uiState.permissionState != PermissionState.PermanentlyDenied &&
-        uiState.error == null  // Disable when there's an error
+            uiState.permissionState != PermissionState.PermanentlyDenied &&
+            uiState.error == null // Disable when there's an error
     }
 
     val onClick = remember(onStartRecording, onStopRecording, uiState.isRecording, uiState.permissionState) {
         {
             when {
-                !uiState.isRecording && (uiState.permissionState == PermissionState.Granted || 
-                uiState.permissionState == PermissionState.NotRequested || 
-                uiState.permissionState == PermissionState.Denied) -> {
+                !uiState.isRecording && (uiState.permissionState == PermissionState.Granted || uiState.permissionState == PermissionState.NotRequested || uiState.permissionState == PermissionState.Denied) -> {
                     onStartRecording()
                 }
                 uiState.isRecording -> {
@@ -360,8 +364,6 @@ private fun MainRecordButton(
 
     RecordButton(uiModel = uiModel)
 }
-
-
 
 @Composable
 private fun RecordingErrorToast(

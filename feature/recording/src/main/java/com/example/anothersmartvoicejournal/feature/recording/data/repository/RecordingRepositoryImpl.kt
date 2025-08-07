@@ -40,7 +40,6 @@ class RecordingRepositoryImpl @Inject constructor(
                 duration = 0L,
                 filePath = recordingFile?.absolutePath
             )
-            
             // Update the StateFlows
             _recordingState.value = startState
             _recordingDuration.value = 0L
@@ -71,7 +70,6 @@ class RecordingRepositoryImpl @Inject constructor(
                 duration = finalDuration,
                 filePath = recordingFile?.absolutePath
             )
-            
             // Update the StateFlows
             _recordingState.value = finalState
             _recordingDuration.value = finalDuration
@@ -95,8 +93,6 @@ class RecordingRepositoryImpl @Inject constructor(
             flowOf(errorState)
         }
     }
-
-
 
     override fun isRecording(): Boolean = _recordingState.value.isRecording
 

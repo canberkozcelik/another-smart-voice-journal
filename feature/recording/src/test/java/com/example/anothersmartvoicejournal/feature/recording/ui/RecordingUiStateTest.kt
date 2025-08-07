@@ -149,8 +149,6 @@ class RecordingUiStateTest {
         assertFalse(canStop)
     }
 
-
-
     @Test
     fun `hasError should be true when error is not null`() {
         // Given
@@ -234,4 +232,4 @@ class RecordingUiStateTest {
         // Then
         assertFalse(showError)
     }
-} 
+}

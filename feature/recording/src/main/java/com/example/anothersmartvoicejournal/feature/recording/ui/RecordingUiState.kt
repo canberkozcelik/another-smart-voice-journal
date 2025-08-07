@@ -19,8 +19,10 @@ data class RecordingUiState(
         }
 
     val canStartRecording: Boolean
-        get() = !isLoading && !isRecording && (permissionState == PermissionState.Granted ||
-            permissionState == PermissionState.NotRequested)
+        get() = !isLoading && !isRecording && (
+            permissionState == PermissionState.Granted ||
+                permissionState == PermissionState.NotRequested
+            )
 
     val canStopRecording: Boolean
         get() = !isLoading && isRecording

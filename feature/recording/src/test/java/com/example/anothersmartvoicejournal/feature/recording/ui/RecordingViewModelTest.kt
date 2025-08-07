@@ -3,13 +3,12 @@ package com.example.anothersmartvoicejournal.feature.recording.ui
 import com.example.anothersmartvoicejournal.feature.recording.data.model.RecordingState
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingDurationUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingStateUseCase
-
-
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StartRecordingUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StopRecordingUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -22,7 +21,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecordingViewModelTest {
@@ -30,7 +28,6 @@ class RecordingViewModelTest {
     private lateinit var viewModel: RecordingViewModel
     private lateinit var startRecordingUseCase: StartRecordingUseCase
     private lateinit var stopRecordingUseCase: StopRecordingUseCase
-
 
     private lateinit var getRecordingStateUseCase: GetRecordingStateUseCase
     private lateinit var getRecordingDurationUseCase: GetRecordingDurationUseCase
@@ -43,7 +40,6 @@ class RecordingViewModelTest {
 
         startRecordingUseCase = mockk()
         stopRecordingUseCase = mockk()
-
 
         getRecordingStateUseCase = mockk()
         getRecordingDurationUseCase = mockk()
@@ -111,7 +107,7 @@ class RecordingViewModelTest {
         // Given
         val recordingState = RecordingState(
             isRecording = true,
-            duration = 0L,  // Duration starts at 0 when recording starts
+            duration = 0L, // Duration starts at 0 when recording starts
             filePath = "/test/path/recording.mp3"
         )
         coEvery { startRecordingUseCase() } returns flowOf(recordingState)
@@ -124,7 +120,7 @@ class RecordingViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertTrue(state.isRecording)
-        assertEquals(0L, state.duration)  // Duration should be 0 when starting
+        assertEquals(0L, state.duration) // Duration should be 0 when starting
         assertEquals("/test/path/recording.mp3", state.filePath)
         assertNull(state.error)
     }
@@ -151,8 +147,6 @@ class RecordingViewModelTest {
         assertEquals("/test/path/recording.mp3", state.filePath)
         assertNull(state.error)
     }
-
-
 
     @Test
     fun `clearError should clear error state`() = runTest(testDispatcher) {
