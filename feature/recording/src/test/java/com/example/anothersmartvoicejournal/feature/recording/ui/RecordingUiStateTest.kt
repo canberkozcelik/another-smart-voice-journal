@@ -17,9 +17,12 @@ class RecordingUiStateTest {
     }
 
     @Test
-    fun `formattedDuration should format correctly`() {
+    fun `formattedDuration should format correctly when not recording`() {
         // Given
-        val uiState = RecordingUiState(duration = 65000L) // 65 seconds
+        val uiState = RecordingUiState(
+            duration = 65000L, // 65 seconds
+            isRecording = false // Not recording
+        )
 
         // When
         val formatted = uiState.formattedDuration
@@ -29,15 +32,48 @@ class RecordingUiStateTest {
     }
 
     @Test
-    fun `formattedDuration should handle zero duration`() {
+    fun `formattedDuration should return empty string when recording`() {
         // Given
-        val uiState = RecordingUiState(duration = 0L)
+        val uiState = RecordingUiState(
+            duration = 65000L, // 65 seconds
+            isRecording = true // Currently recording
+        )
+
+        // When
+        val formatted = uiState.formattedDuration
+
+        // Then
+        assertEquals("", formatted)
+    }
+
+    @Test
+    fun `formattedDuration should handle zero duration when not recording`() {
+        // Given
+        val uiState = RecordingUiState(
+            duration = 0L,
+            isRecording = false // Not recording
+        )
 
         // When
         val formatted = uiState.formattedDuration
 
         // Then
         assertEquals("00:00", formatted)
+    }
+
+    @Test
+    fun `formattedDuration should return empty string for zero duration when recording`() {
+        // Given
+        val uiState = RecordingUiState(
+            duration = 0L,
+            isRecording = true // Currently recording
+        )
+
+        // When
+        val formatted = uiState.formattedDuration
+
+        // Then
+        assertEquals("", formatted)
     }
 
     @Test
@@ -176,6 +212,18 @@ class RecordingUiStateTest {
     @Test
     fun `needsPermission should be true when permission is not granted`() {
         // Given
+        val uiState = RecordingUiState(permissionState = PermissionState.NotRequested)
+
+        // When
+        val needsPermission = uiState.needsPermission
+
+        // Then
+        assertTrue(needsPermission)
+    }
+
+    @Test
+    fun `needsPermission should be true when permission is denied`() {
+        // Given
         val uiState = RecordingUiState(permissionState = PermissionState.Denied)
 
         // When
@@ -195,6 +243,18 @@ class RecordingUiStateTest {
 
         // Then
         assertFalse(needsPermission)
+    }
+
+    @Test
+    fun `needsPermission should be true when permission is permanently denied`() {
+        // Given
+        val uiState = RecordingUiState(permissionState = PermissionState.PermanentlyDenied)
+
+        // When
+        val needsPermission = uiState.needsPermission
+
+        // Then
+        assertTrue(needsPermission)
     }
 
     @Test

@@ -25,9 +25,6 @@ class RecordingRepositoryImpl @Inject constructor(
     private val _recordingState = MutableStateFlow(RecordingState())
     override fun getCurrentRecordingState(): StateFlow<RecordingState> = _recordingState.asStateFlow()
 
-    private val _recordingDuration = MutableStateFlow(0L)
-    override fun getRecordingDuration(): StateFlow<Long> = _recordingDuration.asStateFlow()
-
     override fun startRecording(): Flow<RecordingState> {
         return try {
             createRecordingFile()
@@ -40,9 +37,8 @@ class RecordingRepositoryImpl @Inject constructor(
                 duration = 0L,
                 filePath = recordingFile?.absolutePath
             )
-            // Update the StateFlows
+            // Update the StateFlow
             _recordingState.value = startState
-            _recordingDuration.value = 0L
 
             flowOf(startState)
         } catch (e: Exception) {
@@ -70,9 +66,8 @@ class RecordingRepositoryImpl @Inject constructor(
                 duration = finalDuration,
                 filePath = recordingFile?.absolutePath
             )
-            // Update the StateFlows
+            // Update the StateFlow
             _recordingState.value = finalState
-            _recordingDuration.value = finalDuration
 
             flowOf(finalState)
         } catch (e: Exception) {
@@ -97,6 +92,12 @@ class RecordingRepositoryImpl @Inject constructor(
     override fun isRecording(): Boolean = _recordingState.value.isRecording
 
     override fun getRecordingFilePath(): String? = recordingFile?.absolutePath
+
+    // Since we don't need real-time duration updates, we can remove this method
+    // or keep it for compatibility but return the final duration
+    override fun getRecordingDuration(): StateFlow<Long> {
+        return MutableStateFlow(_recordingState.value.duration)
+    }
 
     private fun createRecordingFile() {
         val recordingsDir = File(context.filesDir, "recordings").apply {

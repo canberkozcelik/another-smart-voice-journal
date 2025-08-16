@@ -283,7 +283,8 @@ private fun RecordingStatusText(uiState: RecordingUiState) {
 
 @Composable
 private fun RecordingDurationText(uiState: RecordingUiState) {
-    if (uiState.isRecording || uiState.duration > 0) {
+    // Only show duration when NOT recording (i.e., after recording is complete)
+    if (!uiState.isRecording && uiState.duration > 0) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = uiState.formattedDuration,
