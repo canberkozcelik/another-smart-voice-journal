@@ -2,7 +2,6 @@ package com.example.anothersmartvoicejournal.feature.recording.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingDurationUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingStateUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StartRecordingUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StopRecordingUseCase
@@ -18,8 +17,7 @@ import kotlinx.coroutines.launch
 class RecordingViewModel @Inject constructor(
     private val startRecordingUseCase: StartRecordingUseCase,
     private val stopRecordingUseCase: StopRecordingUseCase,
-    private val getRecordingStateUseCase: GetRecordingStateUseCase,
-    private val getRecordingDurationUseCase: GetRecordingDurationUseCase
+    private val getRecordingStateUseCase: GetRecordingStateUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecordingUiState())
@@ -34,7 +32,7 @@ class RecordingViewModel @Inject constructor(
                     currentState.copy(
                         isLoading = false,
                         isRecording = recordingState.isRecording,
-                        duration = recordingState.duration,
+                        duration = 0L, // Reset duration when starting
                         filePath = recordingState.filePath,
                         error = recordingState.error
                     )
@@ -52,7 +50,7 @@ class RecordingViewModel @Inject constructor(
                     currentState.copy(
                         isLoading = false,
                         isRecording = recordingState.isRecording,
-                        duration = recordingState.duration,
+                        duration = recordingState.duration, // Set final duration when stopping
                         filePath = recordingState.filePath,
                         error = recordingState.error
                     )
@@ -83,14 +81,6 @@ class RecordingViewModel @Inject constructor(
                         error = recordingState.error
                     )
                 }
-            }
-        }
-    }
-
-    private fun observeRecordingDuration() {
-        viewModelScope.launch {
-            getRecordingDurationUseCase().collect { duration ->
-                _uiState.update { it.copy(duration = duration) }
             }
         }
     }

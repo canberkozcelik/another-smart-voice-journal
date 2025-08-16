@@ -1,7 +1,6 @@
 package com.example.anothersmartvoicejournal.feature.recording.ui
 
 import com.example.anothersmartvoicejournal.feature.recording.data.model.RecordingState
-import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingDurationUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.GetRecordingStateUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StartRecordingUseCase
 import com.example.anothersmartvoicejournal.feature.recording.domain.usecase.StopRecordingUseCase
@@ -28,9 +27,7 @@ class RecordingViewModelTest {
     private lateinit var viewModel: RecordingViewModel
     private lateinit var startRecordingUseCase: StartRecordingUseCase
     private lateinit var stopRecordingUseCase: StopRecordingUseCase
-
     private lateinit var getRecordingStateUseCase: GetRecordingStateUseCase
-    private lateinit var getRecordingDurationUseCase: GetRecordingDurationUseCase
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -40,19 +37,15 @@ class RecordingViewModelTest {
 
         startRecordingUseCase = mockk()
         stopRecordingUseCase = mockk()
-
         getRecordingStateUseCase = mockk()
-        getRecordingDurationUseCase = mockk()
 
         // Set up default mocks for init block calls
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         viewModel = RecordingViewModel(
             startRecordingUseCase,
             stopRecordingUseCase,
-            getRecordingStateUseCase,
-            getRecordingDurationUseCase
+            getRecordingStateUseCase
         )
     }
 
@@ -62,25 +55,21 @@ class RecordingViewModelTest {
     }
 
     private fun createViewModel(
-        recordingState: RecordingState = RecordingState(),
-        duration: Long = 0L
+        recordingState: RecordingState = RecordingState()
     ): RecordingViewModel {
         coEvery { getRecordingStateUseCase() } returns flowOf(recordingState)
-        coEvery { getRecordingDurationUseCase() } returns flowOf(duration)
 
         return RecordingViewModel(
             startRecordingUseCase,
             stopRecordingUseCase,
-            getRecordingStateUseCase,
-            getRecordingDurationUseCase
+            getRecordingStateUseCase
         )
     }
 
     private fun createViewModelAndWait(
-        recordingState: RecordingState = RecordingState(),
-        duration: Long = 0L
+        recordingState: RecordingState = RecordingState()
     ): RecordingViewModel {
-        val testViewModel = createViewModel(recordingState, duration)
+        val testViewModel = createViewModel(recordingState)
         testDispatcher.scheduler.advanceUntilIdle() // Wait for flows to be collected
         return testViewModel
     }
@@ -89,7 +78,6 @@ class RecordingViewModelTest {
     fun `initial state should be correct`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         val initialState = viewModel.uiState.value
@@ -120,7 +108,7 @@ class RecordingViewModelTest {
         val state = viewModel.uiState.value
         assertFalse(state.isLoading)
         assertTrue(state.isRecording)
-        assertEquals(0L, state.duration) // Duration should be 0 when starting
+        assertEquals(0L, state.duration)
         assertEquals("/test/path/recording.mp3", state.filePath)
         assertNull(state.error)
     }
@@ -149,21 +137,7 @@ class RecordingViewModelTest {
     }
 
     @Test
-    fun `clearError should clear error state`() = runTest(testDispatcher) {
-        // Given
-        coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState(error = "Test error"))
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
-
-        // When
-        viewModel.clearError()
-
-        // Then
-        val state = viewModel.uiState.value
-        assertNull(state.error)
-    }
-
-    @Test
-    fun `formattedDuration should format correctly`() = runTest(testDispatcher) {
+    fun `formattedDuration should format correctly after stopping`() = runTest(testDispatcher) {
         // Given
         val recordingState = RecordingState(duration = 65000L) // 65 seconds
         coEvery { stopRecordingUseCase() } returns flowOf(recordingState)
@@ -174,7 +148,40 @@ class RecordingViewModelTest {
         val state = viewModel.uiState.value
 
         // Then
-        assertEquals("01:05", state.formattedDuration)
+        assertEquals("01:05", state.formattedDuration) // Should show formatted duration after stopping
+    }
+
+    @Test
+    fun `formattedDuration should return empty string during recording`() = runTest(testDispatcher) {
+        // Given
+        val recordingState = RecordingState(
+            isRecording = true,
+            duration = 0L // Duration is 0 during recording
+        )
+        coEvery { startRecordingUseCase() } returns flowOf(recordingState)
+
+        // When
+        viewModel.startRecording()
+        testDispatcher.scheduler.advanceUntilIdle()
+        val state = viewModel.uiState.value
+
+        // Then
+        assertTrue(state.isRecording)
+        assertEquals(0L, state.duration)
+        assertEquals("", state.formattedDuration) // Should return empty string during recording
+    }
+
+    @Test
+    fun `clearError should clear error state`() = runTest(testDispatcher) {
+        // Given
+        coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState(error = "Test error"))
+
+        // When
+        viewModel.clearError()
+
+        // Then
+        val state = viewModel.uiState.value
+        assertNull(state.error)
     }
 
     @Test
@@ -221,7 +228,6 @@ class RecordingViewModelTest {
     fun `updatePermissionState should update permission state correctly`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Granted)
@@ -235,7 +241,6 @@ class RecordingViewModelTest {
     fun `canStartRecording should return false when permission is not granted`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Denied)
@@ -249,7 +254,6 @@ class RecordingViewModelTest {
     fun `canStartRecording should return true when permission is granted and not recording`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Granted)
@@ -263,7 +267,6 @@ class RecordingViewModelTest {
     fun `needsPermission should return true when permission is not granted`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Denied)
@@ -277,7 +280,6 @@ class RecordingViewModelTest {
     fun `needsPermission should return false when permission is granted`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Granted)
@@ -291,7 +293,6 @@ class RecordingViewModelTest {
     fun `showPermissionError should return true when permission is permanently denied`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.PermanentlyDenied)
@@ -305,7 +306,6 @@ class RecordingViewModelTest {
     fun `showPermissionError should return false when permission is not permanently denied`() = runTest(testDispatcher) {
         // Given
         coEvery { getRecordingStateUseCase() } returns flowOf(RecordingState())
-        coEvery { getRecordingDurationUseCase() } returns flowOf(0L)
 
         // When
         viewModel.updatePermissionState(PermissionState.Granted)

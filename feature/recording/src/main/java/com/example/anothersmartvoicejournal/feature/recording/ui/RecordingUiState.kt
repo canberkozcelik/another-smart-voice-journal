@@ -12,6 +12,9 @@ data class RecordingUiState(
 ) {
     val formattedDuration: String
         get() {
+            // Only show duration when not recording (after completion)
+            if (isRecording) return ""
+
             val seconds = (duration / 1000).toInt()
             val minutes = seconds / 60
             val remainingSeconds = seconds % 60
