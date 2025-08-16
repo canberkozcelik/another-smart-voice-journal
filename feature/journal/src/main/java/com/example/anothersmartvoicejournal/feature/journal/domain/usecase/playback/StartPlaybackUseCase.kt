@@ -1,22 +1,22 @@
-package com.example.anothersmartvoicejournal.feature.recording.domain.usecase
+package com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback
 
-import com.example.anothersmartvoicejournal.feature.recording.data.repository.PlaybackRepository
-import com.example.anothersmartvoicejournal.feature.recording.domain.PlaybackState
+import com.example.anothersmartvoicejournal.feature.journal.data.repository.PlaybackRepository
+import com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback.state.PlaybackState
 import javax.inject.Inject
 
 class StartPlaybackUseCase @Inject constructor(
     private val repository: PlaybackRepository
 ) {
-    
+
     suspend fun execute(audioFilePath: String, currentState: PlaybackState): PlaybackState {
         // Validate input
         if (audioFilePath.isBlank()) {
             return PlaybackState.Error("Invalid audio file path")
         }
-        
+
         // Start playback using repository
         val result = repository.startPlayback(audioFilePath)
-        
+
         return if (result.isSuccess) {
             // Handle state transitions based on current state
             when (currentState) {

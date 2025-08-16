@@ -1,7 +1,8 @@
-package com.example.anothersmartvoicejournal.feature.recording.domain.usecase
+package com.example.anothersmartvoicejournal.feature.journal.domain.usecase
 
-import com.example.anothersmartvoicejournal.feature.recording.data.repository.PlaybackRepository
-import com.example.anothersmartvoicejournal.feature.recording.domain.PlaybackState
+import com.example.anothersmartvoicejournal.feature.journal.data.repository.PlaybackRepository
+import com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback.PausePlaybackUseCase
+import com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback.state.PlaybackState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -28,24 +29,24 @@ class PausePlaybackUseCaseTest {
         val currentPosition = 5000L
         val currentState = PlaybackState.Playing(audioFilePath, currentPosition)
         coEvery { mockRepository.pausePlayback() } returns Result.success(Unit)
-        
+
         // When
         val result = useCase.execute(currentState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Paused)
         assertEquals(audioFilePath, (result as PlaybackState.Paused).audioFilePath)
-        assertEquals(currentPosition, (result as PlaybackState.Paused).currentPosition)
+        assertEquals(currentPosition, result.currentPosition)
     }
 
     @Test
     fun `PausePlaybackUseCase should not pause from idle state`() = runTest {
         // Given
         val currentState = PlaybackState.Idle
-        
+
         // When
         val result = useCase.execute(currentState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Error)
         assertEquals("Cannot pause: not currently playing", (result as PlaybackState.Error).message)
@@ -57,10 +58,10 @@ class PausePlaybackUseCaseTest {
         val audioFilePath = "/test/audio.mp3"
         val currentPosition = 10000L
         val currentState = PlaybackState.Paused(audioFilePath, currentPosition)
-        
+
         // When
         val result = useCase.execute(currentState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Error)
         assertEquals("Cannot pause: already paused", (result as PlaybackState.Error).message)
@@ -70,10 +71,10 @@ class PausePlaybackUseCaseTest {
     fun `PausePlaybackUseCase should handle error state gracefully`() = runTest {
         // Given
         val errorState = PlaybackState.Error("Previous error occurred")
-        
+
         // When
         val result = useCase.execute(errorState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Error)
         assertEquals("Cannot pause: not currently playing", (result as PlaybackState.Error).message)
@@ -86,10 +87,10 @@ class PausePlaybackUseCaseTest {
         val precisePosition = 12345L
         val currentState = PlaybackState.Playing(audioFilePath, precisePosition)
         coEvery { mockRepository.pausePlayback() } returns Result.success(Unit)
-        
+
         // When
         val result = useCase.execute(currentState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Paused)
         assertEquals(precisePosition, (result as PlaybackState.Paused).currentPosition)
@@ -103,10 +104,10 @@ class PausePlaybackUseCaseTest {
         val currentState = PlaybackState.Playing(audioFilePath, currentPosition)
         val errorMessage = "MediaPlayer error"
         coEvery { mockRepository.pausePlayback() } returns Result.failure(RuntimeException(errorMessage))
-        
+
         // When
         val result = useCase.execute(currentState)
-        
+
         // Then
         assertTrue(result is PlaybackState.Error)
         assertTrue((result as PlaybackState.Error).message.contains(errorMessage))

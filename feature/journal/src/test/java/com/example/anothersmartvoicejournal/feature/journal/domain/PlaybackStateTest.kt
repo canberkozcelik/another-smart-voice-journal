@@ -1,19 +1,11 @@
-package com.example.anothersmartvoicejournal.feature.recording.domain
+package com.example.anothersmartvoicejournal.feature.journal.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback.state.PlaybackState
+import kotlin.test.assertEquals
+import org.junit.Assert
 import org.junit.Test
 
 class PlaybackStateTest {
-
-    @Test
-    fun `PlaybackState Idle should have correct properties`() {
-        // Given
-        val state = PlaybackState.Idle
-
-        // Then
-        assertTrue(state is PlaybackState.Idle)
-    }
 
     @Test
     fun `PlaybackState Playing should have correct properties`() {
@@ -23,9 +15,8 @@ class PlaybackStateTest {
         val state = PlaybackState.Playing(audioFilePath, currentPosition)
 
         // Then
-        assertTrue(state is PlaybackState.Playing)
-        assertEquals(audioFilePath, state.audioFilePath)
-        assertEquals(currentPosition, state.currentPosition)
+        Assert.assertEquals(audioFilePath, state.audioFilePath)
+        Assert.assertEquals(currentPosition, state.currentPosition)
     }
 
     @Test
@@ -36,9 +27,8 @@ class PlaybackStateTest {
         val state = PlaybackState.Paused(audioFilePath, currentPosition)
 
         // Then
-        assertTrue(state is PlaybackState.Paused)
-        assertEquals(audioFilePath, state.audioFilePath)
-        assertEquals(currentPosition, state.currentPosition)
+        Assert.assertEquals(audioFilePath, state.audioFilePath)
+        Assert.assertEquals(currentPosition, state.currentPosition)
     }
 
     @Test
@@ -49,8 +39,7 @@ class PlaybackStateTest {
         val state = PlaybackState.Error(errorMessage, previousState)
 
         // Then
-        assertTrue(state is PlaybackState.Error)
-        assertEquals(errorMessage, state.message)
+        Assert.assertEquals(errorMessage, state.message)
         assertEquals(previousState, state.previousState)
     }
 
@@ -61,8 +50,7 @@ class PlaybackStateTest {
         val state = PlaybackState.Error(errorMessage)
 
         // Then
-        assertTrue(state is PlaybackState.Error)
-        assertEquals(errorMessage, state.message)
-        assertEquals(null, state.previousState)
+        Assert.assertEquals(errorMessage, state.message)
+        Assert.assertEquals(null, state.previousState)
     }
 }

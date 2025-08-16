@@ -1,13 +1,8 @@
-package com.example.anothersmartvoicejournal.feature.recording.data.repository
+package com.example.anothersmartvoicejournal.feature.journal.data.repository
 
 import android.content.Context
-import android.media.MediaPlayer
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,52 +25,52 @@ class PlaybackRepositoryImplTest {
     fun `getAudioDuration should return duration from MediaPlayer`() = runTest {
         // Given
         val audioFilePath = "/test/audio.mp3"
-        
+
         // When
         val result = repository.getAudioDuration(audioFilePath)
-        
+
         // Then
         // Note: This will likely return -1L in test environment since file doesn't exist
         // In real environment, it would return actual duration
-        assertTrue(result == -1L || result > 0L)
+        Assert.assertTrue(result == -1L)
     }
 
     @Test
     fun `startPlayback should handle empty file path`() = runTest {
         // Given
         val emptyPath = ""
-        
+
         // When
         val result = repository.startPlayback(emptyPath)
-        
+
         // Then
-        assertTrue(result.isFailure)
-        assertTrue(result.exceptionOrNull()?.message?.contains("Invalid file path") == true)
+        Assert.assertTrue(result.isFailure)
+        Assert.assertTrue(result.exceptionOrNull()?.message?.contains("Invalid file path") == true)
     }
 
     @Test
     fun `startPlayback should handle blank file path`() = runTest {
         // Given
         val blankPath = "   "
-        
+
         // When
         val result = repository.startPlayback(blankPath)
-        
+
         // Then
-        assertTrue(result.isFailure)
-        assertTrue(result.exceptionOrNull()?.message?.contains("Invalid file path") == true)
+        Assert.assertTrue(result.isFailure)
+        Assert.assertTrue(result.exceptionOrNull()?.message?.contains("Invalid file path") == true)
     }
 
     @Test
     fun `startPlayback should handle invalid file path`() = runTest {
         // Given
         val invalidPath = "/nonexistent/file.mp3"
-        
+
         // When
         val result = repository.startPlayback(invalidPath)
-        
+
         // Then
-        assertTrue(result.isFailure)
+        Assert.assertTrue(result.isFailure)
         // Should fail because file doesn't exist
     }
 
@@ -83,12 +78,12 @@ class PlaybackRepositoryImplTest {
     fun `pausePlayback should handle when not playing`() = runTest {
         // Given
         // No playback started
-        
+
         // When
         val result = repository.pausePlayback()
-        
+
         // Then
-        assertTrue(result.isSuccess)
+        Assert.assertTrue(result.isSuccess)
         // Should succeed even when nothing is playing
     }
 
@@ -96,12 +91,12 @@ class PlaybackRepositoryImplTest {
     fun `stopPlayback should handle when not playing`() = runTest {
         // Given
         // No playback started
-        
+
         // When
         val result = repository.stopPlayback()
-        
+
         // Then
-        assertTrue(result.isSuccess)
+        Assert.assertTrue(result.isSuccess)
         // Should succeed even when nothing is playing
     }
 
@@ -109,19 +104,19 @@ class PlaybackRepositoryImplTest {
     fun `getCurrentPosition should return zero when not playing`() = runTest {
         // Given
         // No playback started
-        
+
         // When
         val result = repository.getCurrentPosition()
-        
+
         // Then
-        assertEquals(0L, result)
+        Assert.assertEquals(0L, result)
     }
 
     @Test
     fun `cleanup should not crash when no MediaPlayer exists`() {
         // Given
         // No MediaPlayer created
-        
+
         // When & Then
         // Should not throw exception
         repository.cleanup()
@@ -131,7 +126,7 @@ class PlaybackRepositoryImplTest {
     fun `repository should handle multiple cleanup calls`() {
         // Given
         // Repository instance
-        
+
         // When & Then
         // Should not throw exception on multiple cleanup calls
         repository.cleanup()

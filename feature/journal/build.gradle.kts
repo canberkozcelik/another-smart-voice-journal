@@ -56,7 +56,12 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     // Testing dependencies
+    // Testing dependencies
+    testImplementation(kotlin("test"))
     testImplementation(libs.bundles.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.compose.bom))

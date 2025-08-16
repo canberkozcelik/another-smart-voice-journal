@@ -1,6 +1,8 @@
 package com.example.anothersmartvoicejournal.feature.recording.ui
 
 import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.example.anothersmartvoicejournal.core.ui.components.LoadingIndicator
 import com.example.anothersmartvoicejournal.core.ui.components.RecordButton
 import com.example.anothersmartvoicejournal.core.ui.components.Toast
@@ -66,8 +69,8 @@ fun RecordingScreen(
             PermissionState.Granted
         } else {
             // Check if user permanently denied by checking if we should show rationale
-            if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED)) {
-                val activity = context as? androidx.activity.ComponentActivity
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                val activity = context as? ComponentActivity
                 if (activity?.shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) == true) {
                     PermissionState.Denied
                 } else {
@@ -101,23 +104,16 @@ fun RecordingScreen(
     // Remember stable callbacks for other actions
     val onStopRecording = remember(viewModel) { { viewModel.stopRecording() } }
     val onClearError = remember(viewModel) { { viewModel.clearError() } }
-    val onUpdatePermissionState = remember(viewModel) {
-        { permissionState: PermissionState ->
-            viewModel.updatePermissionState(
-                permissionState
-            )
-        }
-    }
 
     // Check initial permission state
     LaunchedEffect(Unit) {
         val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-        val permissionState = if (permission == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+        val permissionState = if (permission == PackageManager.PERMISSION_GRANTED) {
             PermissionState.Granted
         } else {
             // Check if we should show rationale to determine if permanently denied
-            if (lifecycleOwner.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.STARTED)) {
-                val activity = context as? androidx.activity.ComponentActivity
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                val activity = context as? ComponentActivity
                 if (activity?.shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) == true) {
                     PermissionState.Denied
                 } else {
