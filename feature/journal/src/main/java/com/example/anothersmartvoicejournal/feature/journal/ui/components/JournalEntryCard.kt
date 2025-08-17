@@ -1,4 +1,4 @@
-package com.example.anothersmartvoicejournal.core.ui.components
+package com.example.anothersmartvoicejournal.feature.journal.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +15,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.anothersmartvoicejournal.core.ui.model.JournalEntryUiModel
+import com.example.anothersmartvoicejournal.feature.journal.domain.usecase.playback.state.PlaybackState
 
 @Composable
 fun JournalEntryCard(
     entry: JournalEntryUiModel,
+    playbackState: PlaybackState? = null,
+    duration: Long = 0L,
+    currentPosition: Long = 0L,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    onPlayClick: (() -> Unit)? = null
+    onPlayClick: () -> Unit = {},
+    onPauseClick: () -> Unit = {},
+    onStopClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
@@ -46,11 +48,16 @@ fun JournalEntryCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            if (entry.hasAudio && onPlayClick != null) {
-                Spacer(Modifier.height(8.dp))
-                IconButton(onClick = onPlayClick) {
-                    Icon(Icons.Filled.PlayArrow, contentDescription = "Play Audio")
-                }
+            if (entry.hasAudio) {
+                Spacer(Modifier.height(16.dp))
+                PlaybackControl(
+                    playbackState = playbackState ?: PlaybackState.Idle,
+                    duration = duration,
+                    currentPosition = currentPosition,
+                    onPlay = onPlayClick,
+                    onPause = onPauseClick,
+                    onStop = onStopClick
+                )
             }
         }
     }
@@ -68,8 +75,13 @@ private fun JournalEntryCardPreview_WithSummaryAndAudio() {
                 summary = "• Started the day with meditation\n• Planned the upcoming project timeline",
                 hasAudio = true
             ),
+            playbackState = PlaybackState.Playing("/test/audio.mp3", 30000L),
+            duration = 120000L,
+            currentPosition = 30000L,
             onClick = {},
-            onPlayClick = {}
+            onPlayClick = {},
+            onPauseClick = {},
+            onStopClick = {}
         )
     }
 }
@@ -87,7 +99,9 @@ private fun JournalEntryCardPreview_WithSummaryNoAudio() {
                 hasAudio = false
             ),
             onClick = {},
-            onPlayClick = null
+            onPlayClick = {},
+            onPauseClick = {},
+            onStopClick = {}
         )
     }
 }
@@ -104,8 +118,13 @@ private fun JournalEntryCardPreview_NoSummaryWithAudio() {
                 summary = null,
                 hasAudio = true
             ),
+            playbackState = PlaybackState.Paused("/test/audio.mp3", 45000L),
+            duration = 90000L,
+            currentPosition = 45000L,
             onClick = {},
-            onPlayClick = {}
+            onPlayClick = {},
+            onPauseClick = {},
+            onStopClick = {}
         )
     }
 }
@@ -123,7 +142,9 @@ private fun JournalEntryCardPreview_NoSummaryNoAudio() {
                 hasAudio = false
             ),
             onClick = {},
-            onPlayClick = null
+            onPlayClick = {},
+            onPauseClick = {},
+            onStopClick = {}
         )
     }
 }

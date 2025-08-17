@@ -4,13 +4,11 @@ import com.example.anothersmartvoicejournal.feature.recording.data.model.Recordi
 import com.example.anothersmartvoicejournal.feature.recording.data.repository.RecordingRepository
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -41,10 +39,10 @@ class GetRecordingStateUseCaseTest {
 
         // Then
         assertEquals(expectedState, result)
-        assertTrue(result.isRecording)
-        assertEquals(3000L, result.duration)
-        assertEquals("/test/path/recording.mp3", result.filePath)
-        assertNull(result.error)
+        Assert.assertTrue(result.isRecording)
+        Assert.assertEquals(3000L, result.duration)
+        Assert.assertEquals("/test/path/recording.mp3", result.filePath)
+        Assert.assertNull(result.error)
     }
 
     @Test
@@ -63,9 +61,9 @@ class GetRecordingStateUseCaseTest {
 
         // Then
         assertEquals(expectedState, result)
-        assertFalse(result.isRecording)
-        assertEquals(0L, result.duration)
-        assertNull(result.filePath)
-        assertEquals("Recording failed", result.error)
+        Assert.assertFalse(result.isRecording)
+        Assert.assertEquals(0L, result.duration)
+        Assert.assertNull(result.filePath)
+        Assert.assertEquals("Recording failed", result.error)
     }
 }
